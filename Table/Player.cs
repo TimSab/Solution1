@@ -22,6 +22,32 @@ namespace Table
             Hand = new List<Card>();
             Name = name;
         }
+        
+        void IPlayer.Give(IPlayer player)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IPlayer.Give(IPlayer playerTo, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Take(IPlayer playerTo)
+        {
+            if (Score < ScoreOverflow)
+            {
+                playerTo.Give(this);
+            }
+        }
+
+        public void Take(IPlayer playerFrom, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Take(playerFrom);
+            }
+        }
 
         public bool TryConnect(Game game)
         {
@@ -31,32 +57,6 @@ namespace Table
             }
             game.players.Add(this);
             return true;
-        }
-        
-        void IPlayer.Give(IPlayer player)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Give(IPlayer player, int count)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Take(IPlayer player)
-        {
-            if (Score < ScoreOverflow)
-            {
-                player.Give(this);
-            }
-        }
-
-        public void Take(IPlayer player, int count)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                Take(player);
-            }
         }
     }
 }

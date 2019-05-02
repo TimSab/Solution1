@@ -19,20 +19,25 @@ namespace UserInterface
         private Player player;
         private readonly Dictionary<string, Bitmap> bitmaps = new Dictionary<string, Bitmap>();
         private Graphics graphics;
+        private string imagesFolderPath = AppDomain.CurrentDomain.BaseDirectory + "Images\\";
 
-        public GameForm(Game game, Player player, DirectoryInfo imagesDirectory = null)
+        public GameForm(Game game, Player player)
         {
             InitializeComponent();
 
             this.game = game;
             this.player = player;
 
-            if (imagesDirectory == null)
-                imagesDirectory = new DirectoryInfo("Images");
+            var imagesDirectory = new DirectoryInfo(imagesFolderPath);
             foreach (var e in imagesDirectory.GetFiles("*.png"))
+            {
                 bitmaps[e.Name] = (Bitmap)Image.FromFile(e.FullName);
+            }
             foreach (var e in imagesDirectory.GetFiles("*.jpg"))
+            {
                 bitmaps[e.Name] = (Bitmap)Image.FromFile(e.FullName);
+            }
+                
             graphics = CreateGraphics();
         }
 

@@ -13,7 +13,7 @@ namespace Table
         public Banker banker;
         public List<IPlayer> players;
         public int id;
-        private bool isEnd;
+        public bool isEnd;
         public Round CurrentRound;
         private bool BankerBankrupt
         {

@@ -14,9 +14,9 @@ namespace Table
         bool IsStand { get; set; }
 
 
-        void Take(IPlayer player);        
-        void Take(IPlayer player, int count);
-        void Give(IPlayer player);
-        void Give(IPlayer player, int count);
+        void Take(IPlayer playerFrom);        
+        void Take(IPlayer playerFrom, int count);
+        void Give(IPlayer playerTo);
+        void Give(IPlayer playerTo, int count);
     }
 }

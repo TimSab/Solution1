@@ -1,54 +1,84 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Utilities;
 using Table;
 
 namespace UserInterface
 {
     public partial class MainMenu : Form
     {
-        public IPlayer Player { get; set; } 
+        private const string DefaultUserName = "Игрок";
+        private const int DefaultUserMoney = 300;
+        private IUserLoader userLoader;
+        private User user;
 
         public MainMenu()
         {
             InitializeComponent();
-            Player = new Player("undefined");
+
+            userLoader = new FileUserLoader();
+            user = new User(DefaultUserName, DefaultUserMoney);
+            UpdateUserInfo();
         }
 
         private void StartGameButton_Click(object sender, EventArgs e)
         {
-            if (((Player)Player).Name == "undefined")
+            IPlayer player = new Player(user.Name);
+            player.Money = user.Money;
+            var game = new Game(player);
+
+            var gameThread = new Thread(() => game.Start());
+            gameThread.Start();
+
+            var gameForm = new GameForm(game, (Player)player);
+            gameForm.Show();
+
+            Hide();
+            gameForm.FormClosed += (object s, FormClosedEventArgs ev) => 
             {
-                MessageBox.Show("создайте имя");
-            }
-            else
-            {                                
-                var game = new Game(Player);
-                var gameThread = new Thread(() => game.Start());
-                gameThread.Start();
-                var gameForm = new GameForm(game, (Player)Player);
-                Hide();
-                gameForm.Show();
-            }
+                Show();
+                game.isEnd = true;
+                // нужно хорошо подумать над правильным завершением
+                gameThread.Join();
+            };
         }
 
         private void ChangeNameButton_Click(object sender, EventArgs e)
         {
             var input = PlayerNameTextBox.Text;
-            PlayerNameTextBox.Text = string.Empty;
-            if (!string.IsNullOrEmpty(input))
+            PlayerNameTextBox.Clear();
+
+            if (string.IsNullOrEmpty(input))
             {
-                MessageBox.Show($"имя {((Player)Player).Name} изменено на {input}");
-                ((Player)Player).Name = PlayerNameTextBox.Text;
-                CurrentNameLabel.Text = input;
+                MessageBox.Show("Неккоректный ввод!");
+                return;
             }
+
+            user.Name = PlayerNameTextBox.Text;
+            UpdateUserInfo();
+        }
+
+        private void LoadUserButton_Click(object sender, EventArgs e)
+        {
+            var input = PlayerNameTextBox.Text;
+            PlayerNameTextBox.Clear();
+
+            if (string.IsNullOrEmpty(input))
+            {
+                MessageBox.Show("Неккоректный ввод!");
+                return;
+            }
+
+            var tempUser = userLoader.Load(input);
+            if (tempUser == null)
+            {
+                MessageBox.Show("Пользователь не найден!");
+                return;
+            }
+
+            user = tempUser;
+            UpdateUserInfo();
         }
 
         private void ConnectButten_Click(object sender, EventArgs e)
@@ -60,9 +90,10 @@ namespace UserInterface
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void UpdateUserInfo()
         {
-            Player.Money = int.Parse(textBox1.Text);
+            UserNameLabel.Text = user.Name;
+            UserMoneyLabel.Text = user.Money.ToString();
         }
     }
 }
