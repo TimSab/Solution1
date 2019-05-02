@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Table;
 
-namespace _21Ochko
+namespace UserInterface
 {
     public partial class MainMenu : Form
     {

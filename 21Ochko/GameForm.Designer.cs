@@ -1,4 +1,4 @@
-﻿namespace _21Ochko
+﻿namespace UserInterface
 {
     partial class GameForm
     {

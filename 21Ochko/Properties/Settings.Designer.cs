@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _21Ochko.Properties
+namespace UserInterface.Properties
 {
 
 

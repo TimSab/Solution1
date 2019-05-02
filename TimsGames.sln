@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Table", "Table\Table.csproj", "{E9C64250-B478-49BE-ADD5-B23876AC5B37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "21Ochko", "21Ochko\21Ochko.csproj", "{C2B79846-307A-40DB-89DB-EE6FE7AAC12F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "21Ochko\UserInterface.csproj", "{C2B79846-307A-40DB-89DB-EE6FE7AAC12F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
