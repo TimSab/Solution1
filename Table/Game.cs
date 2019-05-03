@@ -13,42 +13,12 @@ namespace Table
         public Banker banker;
         public List<IPlayer> players;
         public int id;
-        private bool isEnd;
         public Round CurrentRound;
-        private bool BankerBankrupt
-        {
-            get
-            {
-                if (banker.Money == 0)
-                    return true;
-                return false;
-            }
-        }
 
-        private bool AllPlayersBankrupt
-        {
-            get
-            {
-                foreach(var player in players)
-                {
-                    if (player.Money != 0)
-                        return true;
-                }
-                return false;
-            }
-        }
-
-        private bool BankerBankTooBig
-        {
-            get
-            {
-                if(banker.Money == InitialBank * 3 )
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
+        private bool isEnd;
+        private bool BankerBankrupt => banker.Money == 0;
+        private bool AllPlayersBankrupt => players.All(p => p.Money <= 0);
+        private bool BankerBankTooBig => banker.Money == InitialBank * 3;
 
         public Game(IPlayer host)
         {
@@ -56,7 +26,8 @@ namespace Table
             players = new List<IPlayer>();
             players.Add(host);
             id = new Random().Next();
-            banker.Money = host.Money * 3;           
+            banker.Money = host.Money * 2;
+            InitialBank = host.Money;
         }
         
         public void Start()
@@ -71,11 +42,6 @@ namespace Table
         public void End()
         {
             isEnd = true;
-        }
-
-        public IPlayer GetWinner()
-        {
-            return new Player("");
         }
 
         private void ChooseBanker()

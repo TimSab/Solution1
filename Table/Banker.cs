@@ -9,6 +9,7 @@ namespace Table
     public class Banker : IPlayer // В ЭТОЙ ИГРЕ БАНКИР ВСЕГДА БОТ.
     {
         private const int ScoreOverflow = 21;
+        private const int ScoreStand = 17;
 
         public List<Card> Hand { get; set; }
         public Queue<Card> Deck { get; set; }
@@ -16,7 +17,7 @@ namespace Table
 
         public int Score => Hand.Sum(c => c);
         public int Money { get; set; }
-        public bool IsStand { get => Score > ScoreOverflow; set { } }
+        public bool IsStand { get => Score >= ScoreStand; set { } }
 
         public Banker()
         {
@@ -33,40 +34,40 @@ namespace Table
             Shuffle();
         }
 
-        public void Take(IPlayer player)
+        public void Take(IPlayer playerFrom)
         {
-            if (((Banker)player).Deck.Count == 0)
+            if (((Banker)playerFrom).Deck.Count == 0)
             {
                 throw new Exception("в колоде нет карт");
             }
             if (Score < ScoreOverflow)
             {
-                Hand.Add(((Banker)player).Deck.Dequeue());
+                Hand.Add(((Banker)playerFrom).Deck.Dequeue());
             }
         }
 
-        public void Take(IPlayer player, int count)
+        public void Take(IPlayer playerFrom, int count)
         {
-            if (count > ((Banker)player).Deck.Count)
+            if (count > ((Banker)playerFrom).Deck.Count)
             {
                 throw new Exception($"в колоде нет {count} карт");
             }
             for (int i = 0; i < count; i++)
             {
-                Take(player);
+                Take(playerFrom);
             }
         }
 
-        public void Give(IPlayer player)
+        public void Give(IPlayer playerTo)
         {
             if (Deck.Count == 0)
             {
                 throw new Exception("в колоде нет карт");
             }
-            player.Hand.Add(Deck.Dequeue());
+            playerTo.Hand.Add(Deck.Dequeue());
         }
 
-        public void Give(IPlayer player, int count)
+        public void Give(IPlayer playerTo, int count)
         {
             if (count > Deck.Count)
             {
@@ -74,18 +75,18 @@ namespace Table
             }
             for (int i = 0; i < count; i++)
             {
-                Give(player);
+                Give(playerTo);
             }
         }
 
-        public void Give(List<IPlayer> players, int count)
+        public void Give(List<IPlayer> playersTo, int count)
         {
-            if (count * players.Count > Deck.Count)
+            if (count * playersTo.Count > Deck.Count)
             {
                 throw new Exception($"в колоде нет {count} карт");
             }
 
-            foreach (var player in players)
+            foreach (var player in playersTo)
             {
                 Give(player, count);
             }

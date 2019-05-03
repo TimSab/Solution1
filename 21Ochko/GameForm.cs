@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Table;
 
-namespace _21Ochko
+namespace UserInterface
 {
     public partial class GameForm : Form
     {
@@ -19,20 +19,25 @@ namespace _21Ochko
         private Player player;
         private readonly Dictionary<string, Bitmap> bitmaps = new Dictionary<string, Bitmap>();
         private Graphics graphics;
+        private string imagesFolderPath = AppDomain.CurrentDomain.BaseDirectory + "Images\\";
 
-        public GameForm(Game game, Player player, DirectoryInfo imagesDirectory = null)
+        public GameForm(Game game, Player player)
         {
             InitializeComponent();
 
             this.game = game;
             this.player = player;
 
-            if (imagesDirectory == null)
-                imagesDirectory = new DirectoryInfo("Images");
+            var imagesDirectory = new DirectoryInfo(imagesFolderPath);
             foreach (var e in imagesDirectory.GetFiles("*.png"))
+            {
                 bitmaps[e.Name] = (Bitmap)Image.FromFile(e.FullName);
+            }
             foreach (var e in imagesDirectory.GetFiles("*.jpg"))
+            {
                 bitmaps[e.Name] = (Bitmap)Image.FromFile(e.FullName);
+            }
+                
             graphics = CreateGraphics();
         }
 
@@ -73,11 +78,6 @@ namespace _21Ochko
                 BetButton.Enabled = false;
             }
         }
-
-        //private void timer1_Tick(object sender, EventArgs e)
-        //{
-        //    Refresh();
-        //}
 
         private void PlayerCardsOnPaint()
         {

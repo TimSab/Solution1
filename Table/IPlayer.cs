@@ -9,14 +9,14 @@ namespace Table
     public interface IPlayer
     {
         List<Card> Hand { get; set; }
-        int Score { get;}
+        int Score { get; }
         int Money { get; set; }
         bool IsStand { get; set; }
 
 
-        void Take(IPlayer player);        
-        void Take(IPlayer player, int count);
-        void Give(IPlayer player);
-        void Give(IPlayer player, int count);
+        void Take(IPlayer playerFrom);        
+        void Take(IPlayer playerFrom, int count);
+        void Give(IPlayer playerTo);
+        void Give(IPlayer playerTo, int count);
     }
 }
