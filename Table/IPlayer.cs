@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Table
 {
-    public interface IPlayer
+    public abstract class AbsPlayer
     {
-        List<Card> Hand { get; set; }
-        int Score { get; }
-        int Money { get; set; }
-        bool IsStand { get; set; }
+        public string Name { get; protected set; }
+        public List<Card> Hand { get; set; }
+        public abstract int Score { get; }
+        public int Money { get; set; }
+        public abstract bool IsStand { get; set; }
 
 
-        void Take(IPlayer playerFrom);        
-        void Take(IPlayer playerFrom, int count);
-        void Give(IPlayer playerTo);
-        void Give(IPlayer playerTo, int count);
+        public abstract void Take(AbsPlayer playerFrom);
+        public abstract void Take(AbsPlayer playerFrom, int count);
+        public abstract void Give(AbsPlayer playerTo);
+        public abstract void Give(AbsPlayer playerTo, int count);
+
+        public override string ToString() => Name;
     }
 }

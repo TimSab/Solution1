@@ -39,7 +39,7 @@ namespace UserInterface
             {
                 Show();
                 game.End();
-                gameThread.Abort();  
+                gameThread.Abort();
                 gameThread.Join();
             };
         }

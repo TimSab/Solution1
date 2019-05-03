@@ -6,34 +6,31 @@ using System.Threading.Tasks;
 
 namespace Table
 {
-    public class Player : IPlayer
+    public class Player : AbsPlayer
     {
         private const int ScoreOverflow = 21;
 
-        public List<Card> Hand { get; set; }
+        public override int Score => Hand.Sum(c => c);
 
-        public string Name { get; set; }
-        public int Score => Hand.Sum(c => c);
-        public int Money { get; set; }
-        public bool IsStand { get; set; }
-       
+        public override bool IsStand { get; set; }
+
         public Player(string name)
         {
             Hand = new List<Card>();
             Name = name;
         }
         
-        void IPlayer.Give(IPlayer player)
+        public override void Give(AbsPlayer player)
         {
             throw new NotImplementedException();
         }
 
-        void IPlayer.Give(IPlayer playerTo, int count)
+        public override void Give(AbsPlayer playerTo, int count)
         {
             throw new NotImplementedException();
         }
 
-        public void Take(IPlayer playerTo)
+        public override void Take(AbsPlayer playerTo)
         {
             if (Score < ScoreOverflow)
             {
@@ -41,7 +38,7 @@ namespace Table
             }
         }
 
-        public void Take(IPlayer playerFrom, int count)
+        public override void Take(AbsPlayer playerFrom, int count)
         {
             for (int i = 0; i < count; i++)
             {

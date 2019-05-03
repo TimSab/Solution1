@@ -42,7 +42,19 @@ namespace Utilities
 
         public void Save(User user)
         {
-            throw new NotImplementedException();
+            var fullPath = usersFolderPath + user.Name + ".txt";
+            try
+            {
+                using (var file = File.Open(fullPath, FileMode.OpenOrCreate))
+                {
+                    var array = BitConverter.GetBytes(user.Money);
+                    file.Write(array, 0, array.Length);
+                }
+            }
+            catch
+            {
+                // Молчаливое сглатывание
+            }
         }
     }
 }

@@ -8,12 +8,12 @@ namespace Table
 {
     public class Round
     {
-        private List<IPlayer> players;
+        private List<AbsPlayer> players;
         private Banker banker;
 
         public Batch CurrentBatch { get; private set; }
 
-        public Round(List<IPlayer> players, Banker banker)
+        public Round(List<AbsPlayer> players, Banker banker)
         {
             this.players = players;
             this.banker = banker;
