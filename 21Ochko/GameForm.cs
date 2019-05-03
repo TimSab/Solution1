@@ -79,11 +79,6 @@ namespace UserInterface
             }
         }
 
-        //private void timer1_Tick(object sender, EventArgs e)
-        //{
-        //    Refresh();
-        //}
-
         private void PlayerCardsOnPaint()
         {
             var x = 275;

@@ -38,8 +38,8 @@ namespace UserInterface
             gameForm.FormClosed += (object s, FormClosedEventArgs ev) => 
             {
                 Show();
-                game.isEnd = true;
-                // нужно хорошо подумать над правильным завершением
+                game.End();
+                gameThread.Abort();  
                 gameThread.Join();
             };
         }

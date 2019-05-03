@@ -13,9 +13,9 @@ namespace Table
         public Banker banker;
         public List<IPlayer> players;
         public int id;
-        public bool isEnd;
         public Round CurrentRound;
 
+        private bool isEnd;
         private bool BankerBankrupt => banker.Money == 0;
         private bool AllPlayersBankrupt => players.All(p => p.Money <= 0);
         private bool BankerBankTooBig => banker.Money == InitialBank * 3;

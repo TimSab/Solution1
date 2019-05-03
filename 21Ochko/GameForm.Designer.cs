@@ -28,13 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.HitButton = new System.Windows.Forms.Button();
             this.StandButton = new System.Windows.Forms.Button();
             this.BetTextBox = new System.Windows.Forms.TextBox();
             this.BetButton = new System.Windows.Forms.Button();
             this.BetLabel = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // HitButton
@@ -42,7 +40,7 @@
             this.HitButton.Enabled = false;
             this.HitButton.Font = new System.Drawing.Font("Tahoma", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.HitButton.Location = new System.Drawing.Point(16, 449);
-            this.HitButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.HitButton.Margin = new System.Windows.Forms.Padding(4);
             this.HitButton.Name = "HitButton";
             this.HitButton.Size = new System.Drawing.Size(187, 75);
             this.HitButton.TabIndex = 0;
@@ -56,7 +54,7 @@
             this.StandButton.Enabled = false;
             this.StandButton.Font = new System.Drawing.Font("Tahoma", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.StandButton.Location = new System.Drawing.Point(673, 449);
-            this.StandButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.StandButton.Margin = new System.Windows.Forms.Padding(4);
             this.StandButton.Name = "StandButton";
             this.StandButton.Size = new System.Drawing.Size(187, 75);
             this.StandButton.TabIndex = 1;
@@ -68,7 +66,7 @@
             // BetTextBox
             // 
             this.BetTextBox.Location = new System.Drawing.Point(351, 417);
-            this.BetTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BetTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.BetTextBox.Name = "BetTextBox";
             this.BetTextBox.Size = new System.Drawing.Size(132, 22);
             this.BetTextBox.TabIndex = 2;
@@ -76,7 +74,7 @@
             // BetButton
             // 
             this.BetButton.Location = new System.Drawing.Point(331, 449);
-            this.BetButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BetButton.Margin = new System.Windows.Forms.Padding(4);
             this.BetButton.Name = "BetButton";
             this.BetButton.Size = new System.Drawing.Size(169, 75);
             this.BetButton.TabIndex = 3;
@@ -94,11 +92,6 @@
             this.BetLabel.Size = new System.Drawing.Size(0, 33);
             this.BetLabel.TabIndex = 4;
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 25;
-            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -111,7 +104,7 @@
             this.Controls.Add(this.StandButton);
             this.Controls.Add(this.HitButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "GameForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -129,7 +122,6 @@
         private System.Windows.Forms.TextBox BetTextBox;
         private System.Windows.Forms.Button BetButton;
         private System.Windows.Forms.Label BetLabel;
-        private System.Windows.Forms.Timer timer1;
     }
 }
 
