@@ -15,40 +15,10 @@ namespace Table
         public int id;
         public bool isEnd;
         public Round CurrentRound;
-        private bool BankerBankrupt
-        {
-            get
-            {
-                if (banker.Money == 0)
-                    return true;
-                return false;
-            }
-        }
 
-        private bool AllPlayersBankrupt
-        {
-            get
-            {
-                foreach(var player in players)
-                {
-                    if (player.Money != 0)
-                        return true;
-                }
-                return false;
-            }
-        }
-
-        private bool BankerBankTooBig
-        {
-            get
-            {
-                if(banker.Money == InitialBank * 3 )
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
+        private bool BankerBankrupt => banker.Money == 0;
+        private bool AllPlayersBankrupt => players.All(p => p.Money <= 0);
+        private bool BankerBankTooBig => banker.Money == InitialBank * 3;
 
         public Game(IPlayer host)
         {

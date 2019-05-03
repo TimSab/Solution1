@@ -24,14 +24,14 @@ namespace UserInterface
 
         private void StartGameButton_Click(object sender, EventArgs e)
         {
-            IPlayer player = new Player(user.Name);
+            var player = new Player(user.Name);
             player.Money = user.Money;
             var game = new Game(player);
 
             var gameThread = new Thread(() => game.Start());
             gameThread.Start();
 
-            var gameForm = new GameForm(game, (Player)player);
+            var gameForm = new GameForm(game, player);
             gameForm.Show();
 
             Hide();
