@@ -9,6 +9,7 @@ namespace Table
     public class Banker : IPlayer // В ЭТОЙ ИГРЕ БАНКИР ВСЕГДА БОТ.
     {
         private const int ScoreOverflow = 21;
+        private const int ScoreStand = 17;
 
         public List<Card> Hand { get; set; }
         public Queue<Card> Deck { get; set; }
@@ -16,7 +17,7 @@ namespace Table
 
         public int Score => Hand.Sum(c => c);
         public int Money { get; set; }
-        public bool IsStand { get => Score > ScoreOverflow; set { } }
+        public bool IsStand { get => Score >= ScoreStand; set { } }
 
         public Banker()
         {

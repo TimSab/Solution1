@@ -10,10 +10,10 @@ namespace Table
     public class Batch
     {
         private Banker banker;
-        private Player player;
+        private IPlayer player;
         public int Bet { get; set; }
 
-        public Batch(Banker banker, Player player)
+        public Batch(Banker banker, IPlayer player)
         {
             this.banker = banker;
             this.player = player;
@@ -62,21 +62,21 @@ namespace Table
             {
                 case -1:
                 case 0:
-                    {
-                        PlayerWin();
-                        return;
-                    }
+                {
+                    PlayerWin();
+                    return;
+                }
                 case 1:
-                    {
-                        BankerWin();
-                        return;
-                    }
+                {
+                    BankerWin();
+                    return;
+                }
             }
         }
 
         public void BankerTakes()
         {
-            while (banker.Score < 17)
+            while (!banker.IsStand)
             {
                 banker.Take(banker);
             }

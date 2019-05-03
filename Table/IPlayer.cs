@@ -9,7 +9,7 @@ namespace Table
     public interface IPlayer
     {
         List<Card> Hand { get; set; }
-        int Score { get;}
+        int Score { get; }
         int Money { get; set; }
         bool IsStand { get; set; }
 
