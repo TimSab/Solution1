@@ -26,7 +26,8 @@ namespace Table
             players = new List<IPlayer>();
             players.Add(host);
             id = new Random().Next();
-            banker.Money = host.Money * 3;           
+            banker.Money = host.Money * 2;
+            InitialBank = host.Money;
         }
         
         public void Start()
@@ -41,11 +42,6 @@ namespace Table
         public void End()
         {
             isEnd = true;
-        }
-
-        public IPlayer GetWinner()
-        {
-            return new Player("");
         }
 
         private void ChooseBanker()
