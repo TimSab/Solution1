@@ -11,19 +11,22 @@ namespace Table
     {
         private readonly int InitialBank;
         public Banker banker;
-        public List<IPlayer> players;
+        public List<AbsPlayer> players;
         public int id;
         public Round CurrentRound;
+        
+        
 
         private bool isEnd;
         private bool BankerBankrupt => banker.Money == 0;
         private bool AllPlayersBankrupt => players.All(p => p.Money <= 0);
         private bool BankerBankTooBig => banker.Money == InitialBank * 3;
 
-        public Game(IPlayer host)
+
+        public Game(AbsPlayer host)
         {
             banker = new Banker();
-            players = new List<IPlayer>();
+            players = new List<AbsPlayer>();
             players.Add(host);
             id = new Random().Next();
             banker.Money = host.Money * 2;

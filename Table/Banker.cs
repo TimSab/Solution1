@@ -6,21 +6,20 @@ using System.Threading.Tasks;
 
 namespace Table
 {
-    public class Banker : IPlayer // В ЭТОЙ ИГРЕ БАНКИР ВСЕГДА БОТ.
+    public class Banker : AbsPlayer // В ЭТОЙ ИГРЕ БАНКИР ВСЕГДА БОТ.
     {
         private const int ScoreOverflow = 21;
         private const int ScoreStand = 17;
 
-        public List<Card> Hand { get; set; }
         public Queue<Card> Deck { get; set; }
         public List<Card> BeatenDeck { get; set; }
 
-        public int Score => Hand.Sum(c => c);
-        public int Money { get; set; }
-        public bool IsStand { get => Score >= ScoreStand; set { } }
+        public override int Score => Hand.Sum(c => c);
+        public override bool IsStand { get => Score >= ScoreStand; set { } }
 
         public Banker()
         {
+            Name = "банкир";
             Hand = new List<Card>();
             BeatenDeck = new List<Card>();
             Deck = new Queue<Card>();
@@ -34,7 +33,7 @@ namespace Table
             Shuffle();
         }
 
-        public void Take(IPlayer playerFrom)
+        public override void Take(AbsPlayer playerFrom)
         {
             if (((Banker)playerFrom).Deck.Count == 0)
             {
@@ -46,7 +45,7 @@ namespace Table
             }
         }
 
-        public void Take(IPlayer playerFrom, int count)
+        public override void Take(AbsPlayer playerFrom, int count)
         {
             if (count > ((Banker)playerFrom).Deck.Count)
             {
@@ -58,7 +57,7 @@ namespace Table
             }
         }
 
-        public void Give(IPlayer playerTo)
+        public override void Give(AbsPlayer playerTo)
         {
             if (Deck.Count == 0)
             {
@@ -67,7 +66,7 @@ namespace Table
             playerTo.Hand.Add(Deck.Dequeue());
         }
 
-        public void Give(IPlayer playerTo, int count)
+        public override void Give(AbsPlayer playerTo, int count)
         {
             if (count > Deck.Count)
             {
@@ -79,7 +78,7 @@ namespace Table
             }
         }
 
-        public void Give(List<IPlayer> playersTo, int count)
+        public void Give(List<AbsPlayer> playersTo, int count)
         {
             if (count * playersTo.Count > Deck.Count)
             {
@@ -116,6 +115,6 @@ namespace Table
             var tmp = arr.GetValue(j);
             arr.SetValue(arr.GetValue(i), j);
             arr.SetValue(tmp, i);
-        }
+        }       
     }
 }

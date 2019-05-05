@@ -27,6 +27,9 @@ namespace UserInterface
 
             this.game = game;
             this.player = player;
+            PlayerScoreLabel.Text = player.Score.ToString();
+            BankerMoneyLabel.Text = game.banker.Money.ToString();
+            PlayerMoneyLabel.Text = player.Money.ToString();
 
             var imagesDirectory = new DirectoryInfo(imagesFolderPath);
             foreach (var e in imagesDirectory.GetFiles("*.png"))
@@ -37,8 +40,19 @@ namespace UserInterface
             {
                 bitmaps[e.Name] = (Bitmap)Image.FromFile(e.FullName);
             }
-                
+            
             graphics = CreateGraphics();
+
+            game.CurrentRound.CurrentBatch.BatchEnd += PrepareNewRound;
+        }
+
+        private void PrepareNewRound(string winner)
+        {
+            BankerCardsOnPaint();
+            PlayerCardsOnPaint();
+            //BankerMoneyLabel.Text = game.banker.Money.ToString();
+            //PlayerMoneyLabel.Text = player.Money.ToString();
+            MessageBox.Show($"победил {winner}");
         }
 
         private void Stand_Click(object sender, EventArgs e)
@@ -58,7 +72,8 @@ namespace UserInterface
                 player.Take(game.banker);
             }
             PlayerCardsOnPaint();
-            PaintShirtsUp(game.banker, new Point { X = 275, Y = 50 });            
+            PaintShirtsUp(game.banker, new Point { X = 275, Y = 50 });
+            PlayerScoreLabel.Text = player.Score.ToString();
         }
 
         private void BetButton_Click(object sender, EventArgs e)
@@ -103,7 +118,7 @@ namespace UserInterface
             }
         }
         
-        private void PaintShirtsUp(IPlayer player, Point point)
+        private void PaintShirtsUp(AbsPlayer player, Point point)
         {            
             foreach (var card in player.Hand)
             {                
