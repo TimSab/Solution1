@@ -11,50 +11,5 @@ namespace Utilities
     {
         User Load(string name);
         void Save(User user);
-    }
-
-    public class FileUserLoader : IUserLoader
-    {
-        private string usersFolderPath = AppDomain.CurrentDomain.BaseDirectory + "UsersData\\";
-
-        public User Load(string name)
-        {
-            var fullPath = usersFolderPath + name + ".txt";
-            try
-            {
-                using (var file = File.OpenRead(fullPath))
-                {
-                    var array = new byte[file.Length];
-                    file.Read(array, 0, array.Length);
-                    var textFromFile = Encoding.Default.GetString(array);
-                    if (int.TryParse(textFromFile, out int money))
-                    {
-                        return new User(name, money);
-                    }   
-                }
-            }
-            catch
-            {
-                // Молчаливое сглатывание
-            }
-            return null;
-        }
-
-        public void Save(User user)
-        {
-            var fullPath = usersFolderPath + user.Name + ".txt";
-            try
-            {
-                using (var file = File.Open(fullPath, FileMode.OpenOrCreate))
-                {
-                    var array = BitConverter.GetBytes(user.Money);
-                    file.Write(array, 0, array.Length);
-                }
-            }
-            catch
-            {
-                // Молчаливое сглатывание
-            }
-        }
-    }
+    }    
 }

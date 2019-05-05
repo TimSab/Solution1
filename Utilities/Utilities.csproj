@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CryptoFileUserLoader.cs" />
+    <Compile Include="FileUserLoader.cs" />
     <Compile Include="User.cs" />
     <Compile Include="IUserLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

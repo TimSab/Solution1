@@ -17,7 +17,7 @@ namespace UserInterface
         {
             InitializeComponent();
 
-            userLoader = new FileUserLoader();
+            userLoader = new CryptoFileUserLoader();
             user = new User(DefaultUserName, DefaultUserMoney);
             UpdateUserInfo();
         }
@@ -37,18 +37,20 @@ namespace UserInterface
             Hide();
             gameForm.FormClosed += (object s, FormClosedEventArgs ev) => 
             {
+                user.Money = player.Money;
                 Show();
                 game.End();
                 gameThread.Abort();
-                gameThread.Join();
+                gameThread.Join();                
+                userLoader.Save(user);
+                
             };
         }
 
         private void ChangeNameButton_Click(object sender, EventArgs e)
         {
             var input = PlayerNameTextBox.Text;
-            PlayerNameTextBox.Clear();
-
+            
             if (string.IsNullOrEmpty(input))
             {
                 MessageBox.Show("Неккоректный ввод!");
@@ -57,6 +59,8 @@ namespace UserInterface
 
             user.Name = PlayerNameTextBox.Text;
             UpdateUserInfo();
+
+            PlayerNameTextBox.Clear();
         }
 
         private void LoadUserButton_Click(object sender, EventArgs e)
@@ -79,6 +83,7 @@ namespace UserInterface
 
             user = tempUser;
             UpdateUserInfo();
+            
         }
 
         private void ConnectButten_Click(object sender, EventArgs e)

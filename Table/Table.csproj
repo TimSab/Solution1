@@ -45,7 +45,7 @@
     <Compile Include="Batch.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="IPlayer.cs" />
+    <Compile Include="AbsPlayer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Round.cs" />
