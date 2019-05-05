@@ -17,7 +17,7 @@ namespace UserInterface
         {
             InitializeComponent();
 
-            userLoader = new CryptoFileUserLoader();
+            userLoader = new RSAFileUserLoader();
             user = new User(DefaultUserName, DefaultUserMoney);
             UpdateUserInfo();
         }

@@ -8,13 +8,13 @@ using System.Security.Cryptography;
 
 namespace Utilities
 {
-    public class CryptoFileUserLoader : IUserLoader
+    public class RijndaelCryptoFileUserLoader : IUserLoader
     {
         private string usersFolderPath = AppDomain.CurrentDomain.BaseDirectory + "UsersData\\";
         private byte[] key;
         private byte[] iv;
 
-        public CryptoFileUserLoader()
+        public RijndaelCryptoFileUserLoader()
         {
             Init();
         }
@@ -64,7 +64,7 @@ namespace Utilities
                     textFromFile = reader.ReadLine();
                 }
                 byte[] buffer = Encoding.UTF8.GetBytes(textFromFile);
-                using (RSA rijAlg = RSA.Create())
+                using (Rijndael rijAlg = Rijndael.Create())
                 {
                     rijAlg.Key = key;
                     rijAlg.IV = iv;
@@ -126,47 +126,6 @@ namespace Utilities
             {
                 // Молчаливое сглатывание
             }
-        }
-
-
-        public static byte[] RSAEncrypt(byte[] DataToEncrypt, RSAParameters RSAKeyInfo)
-        {
-            try
-            {
-                byte[] encryptedData;
-                using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
-                {
-                    RSA.ImportParameters(RSAKeyInfo);
-                    
-                    encryptedData = RSA.Encrypt(DataToEncrypt, false);
-                }
-                return encryptedData;
-            }
-
-            catch (CryptographicException e)
-            {
-                return null;
-            }
-
-        }
-
-        public static byte[] RSADecrypt(byte[] DataToDecrypt, RSAParameters RSAKeyInfo)
-        {
-            try
-            {
-                byte[] decryptedData;
-                using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
-                {
-                    RSA.ImportParameters(RSAKeyInfo);
-                    decryptedData = RSA.Decrypt(DataToDecrypt, false);
-                }
-                return decryptedData;
-            }
-            catch (CryptographicException e)
-            {
-                return null;
-            }
-
-        }
+        }        
     }
 }
