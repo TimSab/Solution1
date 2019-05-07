@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICrypto.cs" />
     <Compile Include="RijndaelCryptoFileUserLoader.cs" />
     <Compile Include="FileUserLoader.cs" />
     <Compile Include="RSAFileUserLoader.cs" />
