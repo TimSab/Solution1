@@ -12,7 +12,9 @@ namespace Table
 
         public override int Score => Hand.Sum(c => c);
 
+        //private bool isStand;=> isStand => isStand = value
         public override bool IsStand { get; set; }
+
 
         public Player(string name)
         {

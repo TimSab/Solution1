@@ -61,7 +61,7 @@ namespace UserInterface
             HitButton.Enabled = false;
             StandButton.Enabled = false;
             Thread.Sleep(1000);
-            BankerCardsOnPaint();           
+            BankerCardsOnPaint();
         }
 
 

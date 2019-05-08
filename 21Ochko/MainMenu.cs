@@ -35,22 +35,33 @@ namespace UserInterface
             gameForm.Show();
 
             Hide();
-            gameForm.FormClosed += (object s, FormClosedEventArgs ev) => 
-            {
+            gameForm.FormClosed += (object s, FormClosedEventArgs ev) =>
+            {                                
                 user.Money = player.Money;
+                UserMoneyLabel.Text = user.Money.ToString();
                 Show();
                 game.End();
                 gameThread.Abort();
-                gameThread.Join();                
+                gameThread.Join();
                 userLoader.Save(user);
-                
+            };
+
+            gameForm.FormClosing += (object s, FormClosingEventArgs ev) =>
+            {
+                if (ev.CloseReason == CloseReason.UserClosing)
+                {
+                    if (!player.IsStand)
+                    {
+                        ev.Cancel = true;
+                    }
+                }
             };
         }
 
         private void ChangeNameButton_Click(object sender, EventArgs e)
         {
             var input = PlayerNameTextBox.Text;
-            
+
             if (string.IsNullOrEmpty(input))
             {
                 MessageBox.Show("Неккоректный ввод!");
@@ -58,6 +69,7 @@ namespace UserInterface
             }
 
             user.Name = PlayerNameTextBox.Text;
+            user.Money = DefaultUserMoney;
             UpdateUserInfo();
 
             PlayerNameTextBox.Clear();
@@ -83,7 +95,7 @@ namespace UserInterface
 
             user = tempUser;
             UpdateUserInfo();
-            
+
         }
 
         private void ConnectButten_Click(object sender, EventArgs e)
