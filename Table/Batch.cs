@@ -12,22 +12,27 @@ namespace Table
         private Banker banker;
         public Player Player { get; set; }
         public int Bet { get; set; }
+
+        public event Action BatchStart;
         public event Action<string> BatchEnd;
 
-        public Batch(Banker banker, Player player)
+        public Batch(Banker banker, Player player, Action batchStart, Action<string> batchEnd)
         {
+            BatchStart = batchStart;
+            BatchEnd = batchEnd;
             this.banker = banker;
-            this.Player = player;
+            Player = player;
         }
 
         public void Start(CancellationToken cancelationToken)
-        {
+        {            
+            BatchStart.Invoke();
             PlayerTakes(cancelationToken);
             BankerTakes(cancelationToken);
 
             var winner = DefineWinner(cancelationToken);
 
-            if (cancelationToken.IsCancellationRequested)
+            if (!cancelationToken.IsCancellationRequested)
             {
                 BatchEnd.Invoke(winner.ToString());
             }
@@ -48,7 +53,7 @@ namespace Table
 
         public void PlayerTakes(CancellationToken cancelationToken)
         {
-            while (!Player.IsStand && !cancelationToken.IsCancellationRequested)
+            while (!Player.IsStand && !cancelationToken.IsCancellationRequested)                
             {
                 Thread.Sleep(5);
             }

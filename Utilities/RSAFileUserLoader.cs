@@ -14,23 +14,28 @@ namespace Utilities
         {
             var keysPath = (path ?? AppDomain.CurrentDomain.BaseDirectory) + "keys.txt";
             usersFolderPath = (path ?? AppDomain.CurrentDomain.BaseDirectory) + "UsersData\\";
-            
+
             GetKeys(keysPath);
         }
 
         public User Load(string name)
         {
             var fullPath = usersFolderPath + name + ".txt";
-
-            using (var reader = new StreamReader(fullPath))
+            try
             {
-                // Чтение зашифрованной строки из файла
-                var encryptedString = reader.ReadLine();
+                using (var reader = new StreamReader(fullPath))
+                {
+                    var encryptedString = reader.ReadLine();
 
-                // расшифровка
-                var decryptedString = Decrypt(encryptedString);
+                    // расшифровка
+                    var decryptedString = Decrypt(encryptedString);
 
-                return new User(name, int.Parse(decryptedString));
+                    return new User(name, int.Parse(decryptedString));
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
 

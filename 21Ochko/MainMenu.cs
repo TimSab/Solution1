@@ -27,7 +27,7 @@ namespace UserInterface
             var player = new Player(user.Name);
             player.Money = user.Money;
             var game = new Game(player);
-
+          
             var gameThread = new Thread(() => game.Start());
             gameThread.Start();
 
@@ -37,12 +37,10 @@ namespace UserInterface
             Hide();
             gameForm.FormClosed += (object s, FormClosedEventArgs ev) =>
             {
+                gameThread.Join();
                 user.Money = player.Money;
                 UserMoneyLabel.Text = user.Money.ToString();
                 Show();
-                game.End();
-                gameThread.Abort();
-                gameThread.Join();
                 userLoader.Save(user);
             };
 
@@ -59,11 +57,7 @@ namespace UserInterface
                             var result = MessageBox.Show(msg, capture, MessageBoxButtons.YesNo);
                             if (result == DialogResult.Yes)
                             {
-                                player.Money -= game.CurrentRound.CurrentBatch.Bet;
-                                game.banker.Money += game.CurrentRound.CurrentBatch.Bet;
-                                ev.Cancel = false;
-                                game.cancelTokenSource.Cancel();
-                                //gameForm.Dispose(); из за диспоза он теряет монеты в два раза больше.                                
+                                ev.Cancel = false;                                                              
                             }
                             else
                             {
@@ -71,6 +65,8 @@ namespace UserInterface
                             }
                         }
                     }
+                    game.cancelTokenSource.Cancel();
+                    game.End();
                 }
             };
         }
@@ -112,7 +108,6 @@ namespace UserInterface
 
             user = tempUser;
             UpdateUserInfo();
-
         }
 
         private void ConnectButten_Click(object sender, EventArgs e)
