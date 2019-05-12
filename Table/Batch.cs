@@ -12,24 +12,34 @@ namespace Table
         private Banker banker;
         public Player Player { get; set; }
         public int Bet { get; set; }
-        public event Action<string> BatchEnd;
 
-        public Batch(Banker banker, Player player)
+        public event Action batchStart;
+        public event Action<string> batchEnd;
+
+        public Batch(Banker banker, Player player, Action batchStart, Action<string> batchEnd)
         {
             this.banker = banker;
             this.Player = player;
+            this.batchStart = batchStart;
+            this.batchEnd = batchEnd;
         }
 
         public void Start(CancellationToken cancelationToken)
         {
+            while(Bet == 0)
+            {
+                Thread.Sleep(5);
+            }
+
+            batchStart.Invoke();
             PlayerTakes(cancelationToken);
             BankerTakes(cancelationToken);
 
             var winner = DefineWinner(cancelationToken);
 
-            if (cancelationToken.IsCancellationRequested)
+            if (!cancelationToken.IsCancellationRequested)
             {
-                BatchEnd.Invoke(winner.ToString());
+                batchEnd.Invoke(winner.ToString());
             }
 
             banker.BeatenDeck.AddRange(Player.Hand);

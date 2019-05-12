@@ -24,7 +24,7 @@ namespace UserInterface
         public GameForm(Game game, Player player)
         {
             InitializeComponent();
-
+            
             this.game = game;
             this.player = player;
             PlayerScoreLabel.Text = player.Score.ToString();
@@ -40,19 +40,11 @@ namespace UserInterface
             {
                 bitmaps[e.Name] = (Bitmap)Image.FromFile(e.FullName);
             }
-            
+
             graphics = CreateGraphics();
 
-            game.CurrentRound.CurrentBatch.BatchEnd += PrepareNewRound;
-        }
-
-        private void PrepareNewRound(string winner)
-        {
-            BankerCardsOnPaint();
-            PlayerCardsOnPaint();
-            //BankerMoneyLabel.Text = game.banker.Money.ToString();
-            //PlayerMoneyLabel.Text = player.Money.ToString();
-            MessageBox.Show($"победил {winner}");
+            game.CurrentRound.CurrentBatch.batchEnd += EndBatch;
+            game.CurrentRound.CurrentBatch.batchStart += PrepareNewBatch;
         }
 
         private void Stand_Click(object sender, EventArgs e)
@@ -120,17 +112,38 @@ namespace UserInterface
                 x += 15;
             }
         }
-        
+
         private void PaintShirtsUp(AbsPlayer player, Point point)
-        {            
+        {
             foreach (var card in player.Hand)
-            {                
+            {
                 graphics.DrawImage(bitmaps["рубашка.jpg"], point);
                 point.X += 15;
             }
         }
 
         private void GameForm_Shown(object sender, EventArgs e)
+        {
+            PaintShirtsUp(game.banker, new Point { X = 275, Y = 50 });
+            PaintShirtsUp(player, new Point { X = 275, Y = 230 });
+        }
+
+        private void EndBatch(string winner)
+        {
+            this.Invoke((MethodInvoker)(() =>
+            {
+                BankerMoneyLabel.Text = game.banker.Money.ToString();
+                PlayerMoneyLabel.Text = player.Money.ToString();
+                BetButton.Enabled = true;
+            }
+            ));
+
+            BankerCardsOnPaint();
+            PlayerCardsOnPaint();
+            MessageBox.Show($"победил {winner}");
+        }
+
+        private void PrepareNewBatch()
         {
             PlayerCardsOnPaint();
             PaintShirtsUp(game.banker, new Point { X = 275, Y = 50 });

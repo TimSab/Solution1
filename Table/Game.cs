@@ -23,9 +23,14 @@ namespace Table
         private bool AllPlayersBankrupt => players.All(p => p.Money <= 0);
         private bool BankerBankTooBig => banker.Money == InitialBank * 3;
 
+        public event Action BatchStart;
+        public event Action<string> BatchEnd;
 
         public Game(AbsPlayer host)
         {
+            BatchStart += (() => { });
+            BatchEnd += ((s) => { });
+
             token = cancelTokenSource.Token;
 
             id = new Random().Next();
@@ -40,9 +45,9 @@ namespace Table
         
         public void Start()
         {
-            while(!isEnd || !BankerBankrupt || !AllPlayersBankrupt || !BankerBankTooBig)
+            while(!isEnd && !BankerBankrupt && !AllPlayersBankrupt && !BankerBankTooBig)
             {
-                CurrentRound = new Round(players, banker);
+                CurrentRound = new Round(players, banker, BatchStart, BatchEnd);
                 CurrentRound.Start(token);
             }
         }
