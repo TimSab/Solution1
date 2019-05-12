@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Table
@@ -19,15 +20,15 @@ namespace Table
             this.banker = banker;
         }
 
-        public void Start()
+        public void Start(CancellationToken сancelationToken)
         {
-            foreach(var player in players)
+            foreach (var player in players)
             {
                 banker.Give(player, 2);
                 banker.Give(banker, 2);
                 CurrentBatch = new Batch(banker, (Player)players.First());
-                CurrentBatch.Start();
-            }          
+                CurrentBatch.Start(сancelationToken);
+            }
         }
     }
 }

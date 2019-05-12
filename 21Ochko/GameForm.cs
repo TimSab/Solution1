@@ -57,7 +57,10 @@ namespace UserInterface
 
         private void Stand_Click(object sender, EventArgs e)
         {
-            player.IsStand = true;
+            lock (player.locker)
+            {
+                player.IsStand = true;
+            }
             HitButton.Enabled = false;
             StandButton.Enabled = false;
             Thread.Sleep(1000);

@@ -1,11 +1,10 @@
-﻿using _21Ochko;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace UserInterface
+namespace UserInterfaceBlackJack
 {
     static class Program
     {
@@ -17,7 +16,7 @@ namespace UserInterface
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainMainMenu());
+            Application.Run(new Form1());
         }
     }
 }

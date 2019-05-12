@@ -9,13 +9,14 @@ namespace Table
 {
     public class Game
     {
+        public CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+        private CancellationToken token;
+
         private readonly int InitialBank;
         public Banker banker;
         public List<AbsPlayer> players;
         public int id;
         public Round CurrentRound;
-        
-        
 
         private bool isEnd;
         private bool BankerBankrupt => banker.Money == 0;
@@ -25,12 +26,16 @@ namespace Table
 
         public Game(AbsPlayer host)
         {
-            banker = new Banker();
+            token = cancelTokenSource.Token;
+
+            id = new Random().Next();
+            InitialBank = host.Money;
+
             players = new List<AbsPlayer>();
             players.Add(host);
-            id = new Random().Next();
+
+            banker = new Banker();
             banker.Money = host.Money * 2;
-            InitialBank = host.Money;
         }
         
         public void Start()
@@ -38,7 +43,7 @@ namespace Table
             while(!isEnd || !BankerBankrupt || !AllPlayersBankrupt || !BankerBankTooBig)
             {
                 CurrentRound = new Round(players, banker);
-                CurrentRound.Start();
+                CurrentRound.Start(token);
             }
         }
 

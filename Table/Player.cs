@@ -8,13 +8,12 @@ namespace Table
 {
     public class Player : AbsPlayer
     {
+        public object locker = new object();
         private const int ScoreOverflow = 21;
 
         public override int Score => Hand.Sum(c => c);
 
-        //private bool isStand;=> isStand => isStand = value
         public override bool IsStand { get; set; }
-
 
         public Player(string name)
         {

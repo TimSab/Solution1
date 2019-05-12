@@ -33,6 +33,7 @@ namespace Table
             Shuffle();
         }
 
+
         public override void Take(AbsPlayer playerFrom)
         {
             if (((Banker)playerFrom).Deck.Count == 0)

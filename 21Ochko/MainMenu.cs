@@ -36,7 +36,7 @@ namespace UserInterface
 
             Hide();
             gameForm.FormClosed += (object s, FormClosedEventArgs ev) =>
-            {                                
+            {
                 user.Money = player.Money;
                 UserMoneyLabel.Text = user.Money.ToString();
                 Show();
@@ -50,9 +50,26 @@ namespace UserInterface
             {
                 if (ev.CloseReason == CloseReason.UserClosing)
                 {
-                    if (!player.IsStand)
+                    if (game.CurrentRound.CurrentBatch.Player.Equals(player))
                     {
-                        ev.Cancel = true;
+                        if (game.CurrentRound.CurrentBatch.Bet != 0)
+                        {
+                            var msg = "Вашу ставку заберет банкир.Вы уверены что хотите покинуть игру?";
+                            var capture = "выход";
+                            var result = MessageBox.Show(msg, capture, MessageBoxButtons.YesNo);
+                            if (result == DialogResult.Yes)
+                            {
+                                player.Money -= game.CurrentRound.CurrentBatch.Bet;
+                                game.banker.Money += game.CurrentRound.CurrentBatch.Bet;
+                                ev.Cancel = false;
+                                game.cancelTokenSource.Cancel();
+                                //gameForm.Dispose(); из за диспоза он теряет монеты в два раза больше.                                
+                            }
+                            else
+                            {
+                                ev.Cancel = true;
+                            }
+                        }
                     }
                 }
             };
