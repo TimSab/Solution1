@@ -20,8 +20,7 @@ namespace UserInterface
         private readonly Dictionary<string, Bitmap> bitmaps = new Dictionary<string, Bitmap>();
         private Graphics graphics;
         private string imagesFolderPath = AppDomain.CurrentDomain.BaseDirectory + "Images\\";
-        private Action<string> BatchEnd;
-        private Action BatchStart;
+
         public GameForm(Game game, Player player)
         {
             InitializeComponent();
@@ -44,8 +43,8 @@ namespace UserInterface
 
             graphics = CreateGraphics();
 
-            BatchEnd += EndBatch;
-            BatchStart += PrepareNewBatch;
+            Batch.BatchEnd += EndBatch;
+            Batch.BatchStart += PrepareNewBatch;
         }
 
         private void Stand_Click(object sender, EventArgs e)

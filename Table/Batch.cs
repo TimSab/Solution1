@@ -13,13 +13,13 @@ namespace Table
         public Player Player { get; set; }
         public int Bet { get; set; }
 
-        public event Action BatchStart;
-        public event Action<string> BatchEnd;
+        public static event Action BatchStart;
+        public static event Action<string> BatchEnd;
 
-        public Batch(Banker banker, Player player, Action batchStart, Action<string> batchEnd)
+        public Batch(Banker banker, Player player) // , Action batchStart, Action<string> batchEnd
         {
-            BatchStart = batchStart;
-            BatchEnd = batchEnd;
+            //BatchStart = batchStart;
+            //BatchEnd = batchEnd;
             this.banker = banker;
             Player = player;
         }

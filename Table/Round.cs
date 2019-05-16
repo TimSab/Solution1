@@ -12,17 +12,17 @@ namespace Table
         private List<AbsPlayer> players;
         private Banker banker;
 
-        private event Action batchStart;
-        private event Action<string> batchEnd;
+        //private event Action batchStart;
+        //private event Action<string> batchEnd;
 
         public Batch CurrentBatch { get; private set; }
 
-        public Round(List<AbsPlayer> players, Banker banker, Action batchStart, Action<string> batchEnd)
+        public Round(List<AbsPlayer> players, Banker banker) //, Action batchStart, Action<string> batchEnd
         {
             this.players = players;
             this.banker = banker;
-            this.batchStart = batchStart;
-            this.batchEnd = batchEnd;
+            //this.batchStart = batchStart;
+            //this.batchEnd = batchEnd;
         }
 
         public void Start(CancellationToken сancelationToken)
@@ -31,9 +31,18 @@ namespace Table
             {
                 banker.Give(player, 2);
                 banker.Give(banker, 2);
-                CurrentBatch = new Batch(banker, (Player)players.First(), batchStart, batchEnd);
+                CurrentBatch = new Batch(banker, (Player)player); //, batchStart, batchEnd
                 CurrentBatch.Start(сancelationToken);
+            }
+        }
+
+        public void ReturnBeatenDeckInDeck()
+        {
+            while(banker.BeatenDeck.Count != 0)
+            {
+                banker.Deck.Enqueue(banker.BeatenDeck.Last());
             }
         }
     }
 }
+
