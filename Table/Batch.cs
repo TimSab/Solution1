@@ -37,9 +37,15 @@ namespace Table
                 BatchEnd.Invoke(winner.ToString());
             }
 
-            banker.BeatenDeck.AddRange(Player.Hand);
+            foreach (var card in Player.Hand)
+            {
+                banker.BeatenDeck.Enqueue(card);
+            }
             Player.Hand.Clear();
-            banker.BeatenDeck.AddRange(banker.Hand);
+            foreach (var card in banker.Hand)
+            {
+                banker.BeatenDeck.Enqueue(card);
+            }
             banker.Hand.Clear();
         }
 

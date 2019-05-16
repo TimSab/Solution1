@@ -12,7 +12,7 @@ namespace Table
         private const int ScoreStand = 17;
 
         public Queue<Card> Deck { get; set; }
-        public List<Card> BeatenDeck { get; set; }
+        public Queue<Card> BeatenDeck { get; set; }
 
         public override int Score => Hand.Sum(c => c);
         public override bool IsStand { get => Score >= ScoreStand; set { } }
@@ -21,7 +21,7 @@ namespace Table
         {
             Name = "банкир";
             Hand = new List<Card>();
-            BeatenDeck = new List<Card>();
+            BeatenDeck = new Queue<Card>();
             Deck = new Queue<Card>();
             foreach (CardSuit suit in Enum.GetValues(typeof(CardSuit)))
             {
@@ -92,7 +92,15 @@ namespace Table
             }
         }
 
-        private void Shuffle()
+        public void ReturnBeatenDeckInDeck()
+        {
+            while (BeatenDeck.Count != 0)
+            {
+                Deck.Enqueue(BeatenDeck.Dequeue());
+            }
+        }
+
+        public void Shuffle()
         {
             var rand = new Random();
             var cardArr = Deck.ToArray();

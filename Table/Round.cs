@@ -21,8 +21,8 @@ namespace Table
         {
             this.players = players;
             this.banker = banker;
-            //this.batchStart = batchStart;
-            //this.batchEnd = batchEnd;
+            this.banker.ReturnBeatenDeckInDeck();
+            this.banker.Shuffle();
         }
 
         public void Start(CancellationToken сancelationToken)
@@ -34,15 +34,7 @@ namespace Table
                 CurrentBatch = new Batch(banker, (Player)player); //, batchStart, batchEnd
                 CurrentBatch.Start(сancelationToken);
             }
-        }
-
-        public void ReturnBeatenDeckInDeck()
-        {
-            while(banker.BeatenDeck.Count != 0)
-            {
-                banker.Deck.Enqueue(banker.BeatenDeck.Last());
-            }
-        }
+        }        
     }
 }
 
