@@ -12,12 +12,9 @@ namespace Table
         private List<AbsPlayer> players;
         private Banker banker;
 
-        //private event Action batchStart;
-        //private event Action<string> batchEnd;
-
         public Batch CurrentBatch { get; private set; }
 
-        public Round(List<AbsPlayer> players, Banker banker) //, Action batchStart, Action<string> batchEnd
+        public Round(List<AbsPlayer> players, Banker banker) 
         {
             this.players = players;
             this.banker = banker;
@@ -31,7 +28,7 @@ namespace Table
             {
                 banker.Give(player, 2);
                 banker.Give(banker, 2);
-                CurrentBatch = new Batch(banker, (Player)player); //, batchStart, batchEnd
+                CurrentBatch = new Batch(banker, (Player)player); 
                 CurrentBatch.Start(сancelationToken);
             }
         }        

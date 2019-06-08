@@ -3,6 +3,12 @@ using System.Threading;
 using System.Windows.Forms;
 using Utilities;
 using Table;
+using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace UserInterface
 {
@@ -24,10 +30,36 @@ namespace UserInterface
 
         private void StartGameButton_Click(object sender, EventArgs e)
         {
+            var hostFile = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)
+                .Parent
+                .Parent
+                .Parent
+                .GetDirectories()
+                .Where(d => d.Name == "TableTCPHost")
+                .FirstOrDefault()
+                .GetDirectories()
+                .Where(d => d.Name == "bin")
+                .FirstOrDefault()
+                .GetDirectories()
+                .Where(d => d.Name == "Debug")
+                .FirstOrDefault()
+                .GetFiles()
+                .Where(f => f.Name == "TableTCPHost.exe")
+                .FirstOrDefault();
+
+            if (hostFile.Exists)
+            {
+                using (Process myProcess = new Process())
+                {
+                    myProcess.StartInfo.FileName = hostFile.FullName;
+                    myProcess.Start();
+                }
+            }
+
             var player = new Player(user.Name);
             player.Money = user.Money;
             var game = new Game(player);
-          
+
             var gameThread = new Thread(() => game.Start());
             gameThread.Start();
 
@@ -57,7 +89,7 @@ namespace UserInterface
                             var result = MessageBox.Show(msg, capture, MessageBoxButtons.YesNo);
                             if (result == DialogResult.Yes)
                             {
-                                ev.Cancel = false;                                                              
+                                ev.Cancel = false;
                             }
                             else
                             {
@@ -112,13 +144,47 @@ namespace UserInterface
 
         private void ConnectButten_Click(object sender, EventArgs e)
         {
-            var input = ConnectTextBox.Text;
-            if (input != null)
+            var port = 0;
+            var input = int.TryParse(ConnectTextBox.Text, out port);
+            if (input)
             {
-                // здесь надо написать поиск и подключение к игре.
+                try
+                {
+                    IPHostEntry ipHost = Dns.GetHostEntry("localhost");
+                    IPAddress ipAdr = ipHost.AddressList[0];
+                    IPEndPoint ipPoint = new IPEndPoint(ipAdr, port);
+
+                    Socket socket = new Socket(ipAdr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                    // подключаемся к удаленному хосту
+                    socket.Connect(ipPoint);
+                    string message = "ggwwgwg";
+                    byte[] data = Encoding.Unicode.GetBytes(message);
+                    socket.Send(data);
+
+                    // получаем ответ
+                    data = new byte[256]; // буфер для ответа
+                    StringBuilder builder = new StringBuilder();
+                    int bytes = 0; // количество полученных байт
+
+                    do
+                    {
+                        bytes = socket.Receive(data, data.Length, 0);
+                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                    }
+                    while (socket.Available > 0);
+                    label1.Text = builder.ToString();
+
+                    // закрываем сокет
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                Console.Read();
             }
         }
-
         private void UpdateUserInfo()
         {
             UserNameLabel.Text = user.Name;
@@ -126,3 +192,5 @@ namespace UserInterface
         }
     }
 }
+
+

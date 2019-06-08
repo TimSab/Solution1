@@ -37,7 +37,7 @@
             this.BankerMoneyLabel = new System.Windows.Forms.Label();
             this.PlayerScoreLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
+            //
             // HitButton
             // 
             this.HitButton.Enabled = false;
@@ -66,6 +66,7 @@
             // 
             // BetTextBox
             // 
+            this.BetTextBox.BackColor = System.Drawing.Color.Honeydew;
             this.BetTextBox.Location = new System.Drawing.Point(263, 339);
             this.BetTextBox.Name = "BetTextBox";
             this.BetTextBox.Size = new System.Drawing.Size(100, 20);
@@ -121,7 +122,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.ClientSize = new System.Drawing.Size(657, 435);
             this.Controls.Add(this.PlayerScoreLabel);
             this.Controls.Add(this.BankerMoneyLabel);

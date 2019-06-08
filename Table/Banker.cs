@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Table
 {
-    public class Banker : AbsPlayer // В ЭТОЙ ИГРЕ БАНКИР ВСЕГДА БОТ.
+    public class Banker : AbsPlayer 
     {
         private const int ScoreOverflow = 21;
         private const int ScoreStand = 17;

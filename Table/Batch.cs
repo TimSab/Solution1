@@ -16,10 +16,8 @@ namespace Table
         public static event Action BatchStart;
         public static event Action<string> BatchEnd;
 
-        public Batch(Banker banker, Player player) // , Action batchStart, Action<string> batchEnd
+        public Batch(Banker banker, Player player)
         {
-            //BatchStart = batchStart;
-            //BatchEnd = batchEnd;
             this.banker = banker;
             Player = player;
         }

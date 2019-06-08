@@ -27,7 +27,7 @@ namespace UserInterface
 
             this.game = game;
             this.player = player;            
-            PlayerScoreLabel.Text = "0";//player.Score.ToString();
+            PlayerScoreLabel.Text = "0";
             BankerMoneyLabel.Text = game.banker.Money.ToString();
             PlayerMoneyLabel.Text = player.Money.ToString();
 
@@ -79,15 +79,22 @@ namespace UserInterface
             {
                 MessageBox.Show("неккоректный ввод");
             }
+
+            else if (bet < 10)
+            {
+                MessageBox.Show("минимальная ставка 10 монет");
+            }
+
             else
             {
+                PaintShirtsUp(game.banker, new Point { X = 275, Y = 50 });
                 BetLabel.Text = bet.ToString();
                 PlayerCardsOnPaint();
                 PlayerScoreLabel.Text = player.Score.ToString();
                 game.CurrentRound.CurrentBatch.Bet = bet;
                 HitButton.Enabled = true;
                 StandButton.Enabled = true;
-                BetButton.Enabled = false;
+                BetButton.Enabled = false;                
             }
         }
 
@@ -143,12 +150,14 @@ namespace UserInterface
             BankerCardsOnPaint();
             PlayerCardsOnPaint();
             MessageBox.Show($"победил {winner}");
+            graphics.Clear(Color.DeepSkyBlue);
         }
 
         private void PrepareNewBatch()
         {
-            PlayerCardsOnPaint();
-            PaintShirtsUp(game.banker, new Point { X = 275, Y = 50 });
+            //PlayerCardsOnPaint(); не нужно потомучто отображает карты до ставки. без нее все правильно работает.
+            //PaintShirtsUp(game.banker, new Point { X = 275, Y = 50 });
+            //PaintShirtsUp(player, new Point { X = 275, Y = 50 });
         }
     }
 }
